@@ -35,36 +35,28 @@ public class SongCollection {
      * is permissible because we are programming in Java and Java runs on a
      * virtual machine not directly on the hardware.
      *
-     * @param filename The path and filename to the datafile that we are using
+     * @param fileName The path and fileName to the datafile that we are using
      * must be set in the Project Properties as an argument.
      */
-    public SongCollection(String filename) {
+    public SongCollection(String fileName) {
         String currLine, artist, title;
         StringBuilder lyrics = new StringBuilder();
         ArrayList<Song> songList = new ArrayList<>();
         // use a try catch block
         // read in the song file and build the songs array
-        // there are several ways to read in the lyrics correctly.  
+        // there are several ways to read in the lyrics correctly.
         // the line feeds between lines and the blank lines between verses
         // must be retained.
         try {
-            Scanner scanner = new Scanner(new File(filename));
+            Scanner scanner = new Scanner(new File(fileName));
 
-            // while there is a next line to parse, continue
             while (scanner.hasNextLine()) {
-                /* set the current line to the next line to parse
-                   and get the value (artist) after 'ARTIST="' and before the final '"'
-                 */
                 currLine = scanner.nextLine();
                 artist = currLine.substring(8, currLine.length() - 1);
 
-                // get the value (title) after 'TITLE="' and before the final '"'
                 currLine = scanner.nextLine();
                 title = currLine.substring(7, currLine.length() - 1);
 
-                /* start building the lyrics by reading the first line and omitting
-                   'LYRICS="' from it.
-                 */
                 currLine = scanner.nextLine();
                 lyrics.append(currLine.substring(8));
 
@@ -77,7 +69,7 @@ public class SongCollection {
 
             scanner.close();
         } catch (FileNotFoundException exception) {
-            System.out.printf("File not found: %s", filename);
+            System.out.printf("File not found: %s", fileName);
         }
 
         if (!songList.isEmpty())
