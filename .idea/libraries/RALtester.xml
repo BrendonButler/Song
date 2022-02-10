@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="RALtester">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Part 3/RALtester.jar!/" />
+      <root url="jar://$PROJECT_DIR$/RALtester.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
