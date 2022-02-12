@@ -10,14 +10,9 @@
  */
 package student;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Random;
-import java.util.Scanner;
 
 /**
  * * 
@@ -197,28 +192,61 @@ public class RaggedArrayList<E> implements Iterable<E> {
     public ListLoc findFront(E item) {
         ListLoc loc = null;
 
-        int indexL1 = 0;
         // iterate through the level1 array
-        while ((indexL1 < l1Array.length - 1) && (loc == null)) {
-            L2Array l2Array = ((L2Array) l1Array[indexL1]);
+        if (l1Array == null) {
+            l1Array = new Object[MINIMUM_SIZE];
+        }
 
-            int indexL2 = 0;
-            // iterate through the level2 array
-            while ((l2Array != null) && (indexL2 < l2Array.items.length - 1) && (loc == null)) {
-                // if the current indexed item equals the input, create a ListLoc object with indexL1 and indexL2
-                if (l2Array.items[indexL2] != null) {
-                    int compare = ((Comparable<E>) l2Array.items[indexL2]).compareTo(item);
-                    if (compare >= 0){
-                        loc = new ListLoc(indexL1, indexL2);
+        boolean foundL1 = false;
+        int indexL1 = 0;
+        // find which L1 array the value will be contained in
+        while (indexL1 < l1Array.length && loc == null && !foundL1) {
+            L2Array l2Array = (L2Array) l1Array[indexL1];
+            L2Array nextL2Array = (L2Array) l1Array[indexL1 + 1];
+
+            if (l2Array.items[0] == null) {
+                loc = new ListLoc(indexL1, 0);
+            }
+
+            // check the first value of the next array (or if the array exists)
+            if (nextL2Array == null || ((Comparable) nextL2Array.items[0]).compareTo(item) > 0) {
+                foundL1 = true; // if the next array starts with a value that is larger, use the current L1
+            } else if (((Comparable) nextL2Array.items[0]).compareTo(item) == 0) {
+                indexL1++; // if the next array starts with a value that is equal, use the next L1
+                foundL1 = true;
+            } else {
+                indexL1++; // if the next array starts with a value that is lesser, loop again
+            }
+        }
+
+        int indexL2 = 0;
+        L2Array l2Array = ((L2Array) l1Array[indexL1]);
+        // find which L2 position the value is or should be located at
+        while (indexL2 < l2Array.items.length && loc == null) {
+
+            // if the current value is null, or when compared greater than the input, you found your location
+            if (l2Array.items[indexL2] == null || ((Comparable) l2Array.items[indexL2]).compareTo(item) > 0) {
+                loc = new ListLoc(indexL1, indexL2);
+            } else if (((Comparable) l2Array.items[indexL2]).compareTo(item) == 0) {
+                // if the current value is equal and doesn't start at 0 for either L1/2, we need to test previous values
+                if (indexL1 != 0 && indexL2 == 0) {
+                    L2Array tempL2Array = ((L2Array) l1Array[indexL1 - 1]); // store the previous L2 array
+
+                    // if the previous L2's last value is equal, we'll use the previous L1 and loop back to find the start
+                    if (((Comparable) tempL2Array.items[tempL2Array.numUsed - 1]).compareTo(item) == 0) {
+                        indexL1--;
+                        indexL2 = tempL2Array.numUsed;
+                    }
+
+                    // loop backwards to find the first index of our input in the array
+                    while (indexL2 > 0 && ((Comparable) tempL2Array.items[indexL2 - 1]).compareTo(item) == 0) {
+                        indexL2--;
                     }
                 }
-
-                indexL2++;
+                loc = new ListLoc(indexL1, indexL2);
             }
-            indexL1++;
+            indexL2++;
         }
-        if (loc != null)
-            System.out.println(loc.level1Index + " " + loc.level2Index);
 
         return loc; // when finished should return: new ListLoc(l1,l2);
     }
