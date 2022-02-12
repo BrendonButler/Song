@@ -3,6 +3,8 @@
  * ****************************************************************************
  *                           Revision History
  * ****************************************************************************
+ * 02/12/2021 - Brendon Butler - optimizing Task #1 to match Task #2 solution
+ * 02/12/2021 - Lydia Clark - implementing and testing Task #2 (findEnd())
  * 02/10/2021 - Brendon Butler - implementing and testing Task #1 (findFront())
  * 8/2015 - Anne Applin - Added formatting and JavaDoc 
  * 2015 - Bob Boothe - starting code
@@ -190,65 +192,45 @@ public class RaggedArrayList<E> implements Iterable<E> {
      * level 2 array
      */
     public ListLoc findFront(E item) {
-        ListLoc loc = null;
+        // TO DO in part 3
+        int i1 = 0;  // current L1Array index
+        int i2 = 0;  // current L2Array index
+        //  empty list ?
+        if (size > 0) {
+            L2Array l2Array = (L2Array)l1Array[i1];
 
-        // iterate through the level1 array
-        if (l1Array == null) {
-            l1Array = new Object[MINIMUM_SIZE];
-        }
-
-        boolean foundL1 = false;
-        int indexL1 = 0;
-        // find which L1 array the value will be contained in
-        while (indexL1 < l1Array.length && loc == null && !foundL1) {
-            L2Array l2Array = (L2Array) l1Array[indexL1];
-            L2Array nextL2Array = (L2Array) l1Array[indexL1 + 1];
-
-            if (l2Array.items[0] == null) {
-                loc = new ListLoc(indexL1, 0);
+            while (i1 < l1NumUsed && comp.compare(item, l2Array.items[0]) > 0) {
+                i1++;
+                l2Array = (L2Array) l1Array[i1];
             }
 
-            // check the first value of the next array (or if the array exists)
-            if (nextL2Array == null || ((Comparable) nextL2Array.items[0]).compareTo(item) > 0) {
-                foundL1 = true; // if the next array starts with a value that is larger, use the current L1
-            } else if (((Comparable) nextL2Array.items[0]).compareTo(item) == 0) {
-                indexL1++; // if the next array starts with a value that is equal, use the next L1
-                foundL1 = true;
-            } else {
-                indexL1++; // if the next array starts with a value that is lesser, loop again
+            if (l2Array == null) {
+                i1--;
+                l2Array = (L2Array) l1Array[i1];
             }
-        }
 
-        int indexL2 = 0;
-        L2Array l2Array = ((L2Array) l1Array[indexL1]);
-        // find which L2 position the value is or should be located at
-        while (indexL2 < l2Array.items.length && loc == null) {
+            //
+            while (i2 < l2Array.numUsed) {
+                int compResult = comp.compare(item, l2Array.items[i2]);
 
-            // if the current value is null, or when compared greater than the input, you found your location
-            if (l2Array.items[indexL2] == null || ((Comparable) l2Array.items[indexL2]).compareTo(item) > 0) {
-                loc = new ListLoc(indexL1, indexL2);
-            } else if (((Comparable) l2Array.items[indexL2]).compareTo(item) == 0) {
-                // if the current value is equal and doesn't start at 0 for either L1/2, we need to test previous values
-                if (indexL1 != 0 && indexL2 == 0) {
-                    L2Array tempL2Array = ((L2Array) l1Array[indexL1 - 1]); // store the previous L2 array
-
-                    // if the previous L2's last value is equal, we'll use the previous L1 and loop back to find the start
-                    if (((Comparable) tempL2Array.items[tempL2Array.numUsed - 1]).compareTo(item) == 0) {
-                        indexL1--;
-                        indexL2 = tempL2Array.numUsed;
-                    }
-
-                    // loop backwards to find the first index of our input in the array
-                    while (indexL2 > 0 && ((Comparable) tempL2Array.items[indexL2 - 1]).compareTo(item) == 0) {
-                        indexL2--;
-                    }
+                if (compResult <= 0 && i2 == 0 && i1 > 0) {
+                    i1--;
+                    l2Array = (L2Array) l1Array[i1];
+                } else if (compResult <= 0) {
+                    break;
+                } else {
+                    i2++;
                 }
-                loc = new ListLoc(indexL1, indexL2);
             }
-            indexL2++;
+
+            if (i1 < l1NumUsed - 1 && i2 == l2Array.numUsed) {
+                i1++;
+                i2 = 0;
+            }
         }
 
-        return loc; // when finished should return: new ListLoc(l1,l2);
+        return new ListLoc(i1, i2); // when finished should return:
+        // new ListLoc(l1,l2);
     }
 
     /**
@@ -261,8 +243,29 @@ public class RaggedArrayList<E> implements Iterable<E> {
      */
     public ListLoc findEnd(E item) {
         // TO DO in part 3
+        int i1 = 0;  // current L1Array index
+        int i2 = 0;  // current L2Array index
+        //  empty list ?
+        if (size > 0) {
+            i1 = l1NumUsed - 1;
+            L2Array l2Array = (L2Array)l1Array[l1NumUsed - 1];
 
-        return null; // when finished should return: new ListLoc(l1,l2);
+            while (i1 > 0 && comp.compare(item, l2Array.items[0]) < 0){
+                i1--;
+                l2Array = (L2Array)l1Array[i1];
+            }
+
+            while (i2 < l2Array.numUsed && comp.compare(item, l2Array.items[i2]) >= 0){
+                i2++;
+            }
+
+            if (i1 < l1NumUsed - 1 && i2 == l2Array.numUsed) {
+                i1++;
+                i2 = 0;
+            }
+        }
+        return new ListLoc(i1, i2); // when finished should return:
+        // new ListLoc(l1,l2);
     }
 
     /**
