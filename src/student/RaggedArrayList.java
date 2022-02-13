@@ -3,6 +3,9 @@
  * ****************************************************************************
  *                           Revision History
  * ****************************************************************************
+ * 02/13/2021 - Brendon Butler - updating comments & javadoc(s)
+ * 02/12/2021 - Brendon Butler - optimizing Task #1 to match Task #2 solution
+ * 02/12/2021 - Lydia Clark - implementing and testing Task #2 (findEnd())
  * 02/10/2021 - Brendon Butler - implementing and testing Task #1 (findFront())
  * 8/2015 - Anne Applin - Added formatting and JavaDoc 
  * 2015 - Bob Boothe - starting code
@@ -184,6 +187,8 @@ public class RaggedArrayList<E> implements Iterable<E> {
     /**
      * find 1st matching entry
      *
+     * @author Brendon Butler
+     * Revised By: Lydia Clark & Brendon Butler
      * @param item the thing we are searching for a place to put.
      * @return ListLoc of 1st matching item or of 1st item greater than 
      * the item if no match this might be an unused slot at the end of a 
@@ -193,25 +198,29 @@ public class RaggedArrayList<E> implements Iterable<E> {
         // TO DO in part 3
         int i1 = 0;  // current L1Array index
         int i2 = 0;  // current L2Array index
-        // if the list is empty, skip and return a the list location as (0, 0)
+        // if the list is empty, skip and return the list location as (0, 0)
         if (size > 0) {
             L2Array l2Array = (L2Array) l1Array[i1];
 
-            while (i1 < l1NumUsed-1 && comp.compare(item, l2Array.items[l2Array.numUsed - 1]) > 0) {
+            // Find the first L2 array that's first value is greater than the input
+            while (i1 < l1NumUsed - 1 && comp.compare(item, l2Array.items[l2Array.numUsed - 1]) > 0) {
                 i1++;
                 l2Array = (L2Array) l1Array[i1];
             }
 
+            // find the first instance of the input in the L2 array
             while (i2 < l2Array.numUsed && comp.compare(item, l2Array.items[i2]) > 0) {
                 i2++;
             }
 
+            // adjust the L1 value back by 1 if the comparison is not equal to 0
             if (i1 > 0 && i2 == 0 && comp.compare(item, l2Array.items[i2]) != 0) {
                 i1--;
                 i2 = l2Array.numUsed - 1;
             }
         }
 
+        // using the found index of the L1 array and L2 array, return a new ListLoc with those values
         return new ListLoc(i1, i2);
     }
 
@@ -220,6 +229,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
      * the index of the next larger item this is the position to add a new 
      * entry this might be an unused slot at the end of a level 2 array
      *
+     * @author Lydia Clark
      * @param item the thing we are searching for a place to put.
      * @return the location where this item should go
      */
@@ -227,27 +237,31 @@ public class RaggedArrayList<E> implements Iterable<E> {
         // TO DO in part 3
         int i1 = 0;  // current L1Array index
         int i2 = 0;  // current L2Array index
-        //  empty list ?
+        // if the list is empty, skip and return the list location as (0, 0)
         if (size > 0) {
             i1 = l1NumUsed - 1;
             L2Array l2Array = (L2Array)l1Array[l1NumUsed - 1];
 
-            while (i1 > 0 && comp.compare(item, l2Array.items[0]) < 0){
+            // Find the last L2 array that's first value is greater than the input
+            while (i1 > 0 && comp.compare(item, l2Array.items[0]) < 0) {
                 i1--;
                 l2Array = (L2Array)l1Array[i1];
             }
 
-            while (i2 < l2Array.numUsed && comp.compare(item, l2Array.items[i2]) >= 0){
+            // find the last instance of the input in the L2 array
+            while (i2 < l2Array.numUsed && comp.compare(item, l2Array.items[i2]) >= 0) {
                 i2++;
             }
 
+            // adjust the L1 value forward by 1 if there is another L2 array ahead of the current one
             if (i1 < l1NumUsed - 1 && i2 == l2Array.numUsed) {
                 i1++;
                 i2 = 0;
             }
         }
-        return new ListLoc(i1, i2); // when finished should return:
-        // new ListLoc(l1,l2);
+
+        // using the found index of the L1 array and L2 array, return a new ListLoc with those values
+        return new ListLoc(i1, i2);
     }
 
     /**
