@@ -3,8 +3,6 @@
  * ****************************************************************************
  *                           Revision History
  * ****************************************************************************
- * 02/12/2021 - Brendon Butler - optimizing Task #1 to match Task #2 solution
- * 02/12/2021 - Lydia Clark - implementing and testing Task #2 (findEnd())
  * 02/10/2021 - Brendon Butler - implementing and testing Task #1 (findFront())
  * 8/2015 - Anne Applin - Added formatting and JavaDoc 
  * 2015 - Bob Boothe - starting code
@@ -195,42 +193,26 @@ public class RaggedArrayList<E> implements Iterable<E> {
         // TO DO in part 3
         int i1 = 0;  // current L1Array index
         int i2 = 0;  // current L2Array index
-        //  empty list ?
+        // if the list is empty, skip and return a the list location as (0, 0)
         if (size > 0) {
-            L2Array l2Array = (L2Array)l1Array[i1];
+            L2Array l2Array = (L2Array) l1Array[i1];
 
-            while (i1 < l1NumUsed && comp.compare(item, l2Array.items[0]) > 0) {
+            while (i1 < l1NumUsed-1 && comp.compare(item, l2Array.items[l2Array.numUsed - 1]) > 0) {
                 i1++;
                 l2Array = (L2Array) l1Array[i1];
             }
 
-            if (l2Array == null) {
+            while (i2 < l2Array.numUsed && comp.compare(item, l2Array.items[i2]) > 0) {
+                i2++;
+            }
+
+            if (i1 > 0 && i2 == 0 && comp.compare(item, l2Array.items[i2]) != 0) {
                 i1--;
-                l2Array = (L2Array) l1Array[i1];
-            }
-
-            //
-            while (i2 < l2Array.numUsed) {
-                int compResult = comp.compare(item, l2Array.items[i2]);
-
-                if (compResult <= 0 && i2 == 0 && i1 > 0) {
-                    i1--;
-                    l2Array = (L2Array) l1Array[i1];
-                } else if (compResult <= 0) {
-                    break;
-                } else {
-                    i2++;
-                }
-            }
-
-            if (i1 < l1NumUsed - 1 && i2 == l2Array.numUsed) {
-                i1++;
-                i2 = 0;
+                i2 = l2Array.numUsed - 1;
             }
         }
 
-        return new ListLoc(i1, i2); // when finished should return:
-        // new ListLoc(l1,l2);
+        return new ListLoc(i1, i2);
     }
 
     /**
