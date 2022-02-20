@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="SongSearch">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/SongSearch.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

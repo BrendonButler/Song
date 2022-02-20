@@ -3,10 +3,12 @@
  * ****************************************************************************
  *                           Revision History
  * ****************************************************************************
- * 02/13/2021 - Brendon Butler - updating comments & javadoc(s)
- * 02/12/2021 - Brendon Butler - optimizing Task #1 to match Task #2 solution
- * 02/12/2021 - Lydia Clark - implementing and testing Task #2 (findEnd())
- * 02/10/2021 - Brendon Butler - implementing and testing Task #1 (findFront())
+ * 02/16/2022 - Brendon Butler - reorganized and commented Task #1
+ * 02/16/2022 - Shea Durgin - implementing Task #1 (run())
+ * 02/13/2022 - Brendon Butler - updating comments & javadoc(s)
+ * 02/12/2022 - Brendon Butler - optimizing Task #1 to match Task #2 solution
+ * 02/12/2022 - Lydia Clark - implementing and testing Task #2 (findEnd())
+ * 02/10/2022 - Brendon Butler - implementing and testing Task #1 (findFront())
  * 8/2015 - Anne Applin - Added formatting and JavaDoc 
  * 2015 - Bob Boothe - starting code
  * ****************************************************************************
@@ -268,12 +270,68 @@ public class RaggedArrayList<E> implements Iterable<E> {
      * add object after any other matching values findEnd will give the
      * insertion position
      *
+     * @author Shea Durgin
+     * Revised by: Brendon Butler
      * @param item the thing we are searching for a place to put.
      * @return
      */
     public boolean add(E item) {
         // TO DO in part 4 and NOT BEFORE
+        ListLoc location = findEnd(item);
+        L2Array l2Array = (L2Array) l1Array[location.level1Index];
 
+        // move the items following the insertion index over by 1
+        // then insert the item
+        System.arraycopy(l2Array.items, location.level2Index,
+                l2Array.items, location.level2Index + 1,
+                l2Array.numUsed - location.level2Index);
+        l2Array.items[location.level2Index] = item;
+
+        // increment number of items used and size in the l2Array
+        l2Array.numUsed++;
+        size++;
+
+        // if the L2 array is full, resize or split the array
+        if (l2Array.numUsed == l2Array.items.length) {
+            /*  If l2Array's length is less than the max length
+                determined by the l1Array length, double the l2Array
+                else split the array */
+            if (l2Array.items.length < l1Array.length) {
+                l2Array.items = Arrays.copyOf(l2Array.items,
+                        l2Array.items.length * 2);
+            } else {
+                int l1Index = location.level1Index + 1;
+                int halfL2ArrayLength = l2Array.items.length / 2;
+
+                // copy the second half of values from l2Array into a
+                // new L2Array, then adjust the numUsed value
+                L2Array latterHalf = new L2Array(l2Array.items.length);
+                System.arraycopy(l2Array.items, halfL2ArrayLength,
+                        latterHalf.items, 0, halfL2ArrayLength);
+                latterHalf.numUsed = halfL2ArrayLength;
+
+                // fill the second half of l2Array with null
+                // then adjust the numUsed value
+                Arrays.fill(l2Array.items, halfL2ArrayLength,
+                        l2Array.items.length, null);
+                l2Array.numUsed = halfL2ArrayLength;
+
+                // insert new l2Array into l1Array
+                System.arraycopy(l1Array, l1Index, l1Array,
+                        l1Index + 1, l1NumUsed - l1Index);
+                l1Array[l1Index] = latterHalf;
+
+                // increment l1NumUsed
+                l1NumUsed++;
+
+                // double length of l1Array if full
+                if (l1NumUsed == l1Array.length) {
+                    l1Array = Arrays.copyOf(l1Array, l1NumUsed * 2);
+                }
+            }
+        }
+
+        // always return true for add method as it will always be able to expand and add items if needed,
         return true;
     }
 
