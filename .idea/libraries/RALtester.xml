@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="RALtester">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/RALtester.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

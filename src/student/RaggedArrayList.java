@@ -3,6 +3,8 @@
  * ****************************************************************************
  *                           Revision History
  * ****************************************************************************
+ * 03/02/2022 - Brendon Butler - implementing Part 5 - Task #1 (contains())
+ *                             - implementing Part 5 - Task #2 (Iterator)
  * 02/16/2022 - Brendon Butler - reorganized and commented Task #1
  * 02/16/2022 - Shea Durgin - implementing Task #1 (run())
  * 02/13/2022 - Brendon Butler - updating comments & javadoc(s)
@@ -180,9 +182,18 @@ public class RaggedArrayList<E> implements Iterable<E> {
          * will be one index past the last value in the used level 2 array. Can
          * be used internally to scan through the array for sublist also can be
          * used to implement the iterator.
+         *
+         * @author Brendon Butler
          */
         public void moveToNext() {
             // TO DO IN PART 5 and NOT BEFORE
+            // adjust L1Index if reached end of L2Array, else adjust L2Index
+            if (((L2Array) l1Array[level1Index]).numUsed == level2Index + 1) {
+                level1Index += 1;
+                level2Index = 0;
+            } else {
+                level2Index += 1;
+            }
         }
     }
 
@@ -338,13 +349,22 @@ public class RaggedArrayList<E> implements Iterable<E> {
     /**
      * check if list contains a match
      *
+     * @author Brendon Butler
      * @param item the thing we are looking for.
      * @return true if the item is already in the data structure
      */
     public boolean contains(E item) {
         // TO DO in part 5 and NOT BEFORE
+        ListLoc loc = findFront(item);
+        boolean contained = false;
 
-        return false;
+        // if the item equals the first item instance (where it should be located) contained = true, otherwise false
+        E tempItem = ((L2Array) l1Array[loc.level1Index]).items[loc.level2Index];
+        if (tempItem != null) {
+            contained = item.equals(tempItem);
+        }
+
+        return contained;
     }
 
     /**
@@ -403,23 +423,34 @@ public class RaggedArrayList<E> implements Iterable<E> {
 
         /**
          * check to see if there are more items
+         *
+         * @author Brendon Butler
          */
         public boolean hasNext() {
             // TO DO in part 5 and NOT BEFORE
-
-            return false;
+            return (l1Array[loc.level1Index] != null
+                    && ((L2Array) l1Array[loc.level1Index]).items[loc.level2Index] != null);
         }
 
         /**
-         * return item and move to next throws NoSuchElementException if 
-         * off end of list.  An exception is thrown here because calling 
+         * return item and move to next throws NoSuchElementException if
+         * off end of list.  An exception is thrown here because calling
          * next() without calling hasNext() shows a certain level or stupidity
          * on the part of the programmer, so it can blow up. They deserve it.
+         *
+         * @author Brendon Butler
          */
-        public E next() {
+        public E next() throws IndexOutOfBoundsException {
             // TO DO in part 5 and NOT BEFORE
+            E item = ((L2Array) l1Array[loc.level1Index]).items[loc.level2Index];
 
-            throw new IndexOutOfBoundsException();
+            // if the location is at the end of the L2Array and not at the end of the L1Array, adjust the L1ArrayIndex
+            if (l1Array[loc.level1Index] == null || item == null) {
+                throw new IndexOutOfBoundsException();
+            }
+
+            loc.moveToNext();
+            return item;
         }
 
         /**
