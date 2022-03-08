@@ -412,8 +412,9 @@ public class RaggedArrayList<E> implements Iterable<E> {
         Itr itr = new Itr();
 
         itr.loc = findFront(fromElement);
-        ListLoc end = findEnd(toElement);
+        ListLoc end = findFront(toElement);
 
+        // add each item from modified iterator starting point (inclusive) until reaching the end value (exclusive)
         while (itr.hasNext() && !itr.loc.equals(end)) {
             result.add(itr.next());
         }
