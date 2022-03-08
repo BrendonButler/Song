@@ -3,6 +3,7 @@
  * ****************************************************************************
  *                           Revision History
  * ****************************************************************************
+ * 03/08/2022 - Brendon Butler - revising (subList()) to meet criteria
  * 03/07/2022 - Brendon Butler - completing Part 5 - (subList()) & analysis
  * 03/02/2022 - Brendon Butler - implementing Part 5 - Task #1 (contains())
  *                             - implementing Part 5 - Task #2 (Iterator)
@@ -377,12 +378,13 @@ public class RaggedArrayList<E> implements Iterable<E> {
      * copy the contents of the RaggedArrayList into the given array
      *
      * @author Brendon Butler
+     * Revised by: Brendon Butler (after submission)
      * @param a - an array of the actual type and of the correct size
      * @return the filled in array
      */
     public E[] toArray(E[] a) {
         // TO DO in part 5 and NOT BEFORE
-        Itr itr = new Itr();
+        Iterator<E> itr = iterator();
         ArrayList<E> tempArray = new ArrayList<>();
 
         // while there is another item in the iterator, add it to the tempArray
@@ -399,32 +401,21 @@ public class RaggedArrayList<E> implements Iterable<E> {
      * unaffected findStart and findEnd will be useful here
      *
      * @author Brendon Butler
+     * Revised by: Brendon Butler (after submission)
      * @param fromElement the starting element
      * @param toElement the element after the last element we actually want
      * @return the sublist
      */
     public RaggedArrayList<E> subList(E fromElement, E toElement) {
         // TO DO in part 5 and NOT BEFORE
-        Itr itr = new Itr();
-        boolean foundStart = false, foundEnd = false;
         RaggedArrayList<E> result = new RaggedArrayList<E>(comp);
+        Itr itr = new Itr();
 
-        // while there is another item in the iterator, and it's not the destination element, loop
-        while (itr.hasNext() && !foundEnd) {
-            E item = itr.next();
+        itr.loc = findFront(fromElement);
+        ListLoc end = findEnd(toElement);
 
-            // if the current element is the fromElement, or the front has already been found
-            if (item.equals(fromElement) || foundStart) {
-                foundStart = true;
-
-                /* if the current element is equal to the end element, set the foundEnd flag --
-                   else add the item.  */
-                if (item.equals(toElement)) {
-                    foundEnd = true;
-                } else {
-                    result.add(item);
-                }
-            }
+        while (itr.hasNext() && !itr.loc.equals(end)) {
+            result.add(itr.next());
         }
 
         return result;
