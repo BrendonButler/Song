@@ -3,8 +3,10 @@
  * ****************************************************************************
  *                           Revision History
  * ****************************************************************************
+ * 03/07/2022 - Brendon Butler - completing Part 5 - (subList()) & analysis
  * 03/02/2022 - Brendon Butler - implementing Part 5 - Task #1 (contains())
  *                             - implementing Part 5 - Task #2 (Iterator)
+ *                             - implementing Part 5 - Task #3 (toArray())
  * 02/16/2022 - Brendon Butler - reorganized and commented Task #1
  * 02/16/2022 - Shea Durgin - implementing Task #1 (run())
  * 02/13/2022 - Brendon Butler - updating comments & javadoc(s)
@@ -17,6 +19,7 @@
  */
 package student;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -358,8 +361,11 @@ public class RaggedArrayList<E> implements Iterable<E> {
         ListLoc loc = findFront(item);
         boolean contained = false;
 
-        // if the item equals the first item instance (where it should be located) contained = true, otherwise false
+        // get the item at the current list location (front)
         E tempItem = ((L2Array) l1Array[loc.level1Index]).items[loc.level2Index];
+
+        /* if the item is not null, check if the item equals the temp item
+           if they are equal set contained to true, else false */
         if (tempItem != null) {
             contained = item.equals(tempItem);
         }
@@ -370,13 +376,21 @@ public class RaggedArrayList<E> implements Iterable<E> {
     /**
      * copy the contents of the RaggedArrayList into the given array
      *
+     * @author Brendon Butler
      * @param a - an array of the actual type and of the correct size
      * @return the filled in array
      */
     public E[] toArray(E[] a) {
         // TO DO in part 5 and NOT BEFORE
+        Itr itr = new Itr();
+        ArrayList<E> tempArray = new ArrayList<>();
 
-        return a;
+        // while there is another item in the iterator, add it to the tempArray
+        while (itr.hasNext()) {
+            tempArray.add(itr.next());
+        }
+
+        return tempArray.toArray(a);
     }
 
     /**
@@ -384,14 +398,35 @@ public class RaggedArrayList<E> implements Iterable<E> {
      * fromElemnt, inclusive, to toElement, exclusive. The original list is
      * unaffected findStart and findEnd will be useful here
      *
+     * @author Brendon Butler
      * @param fromElement the starting element
      * @param toElement the element after the last element we actually want
      * @return the sublist
      */
     public RaggedArrayList<E> subList(E fromElement, E toElement) {
         // TO DO in part 5 and NOT BEFORE
-
+        Itr itr = new Itr();
+        boolean foundStart = false, foundEnd = false;
         RaggedArrayList<E> result = new RaggedArrayList<E>(comp);
+
+        // while there is another item in the iterator, and it's not the destination element, loop
+        while (itr.hasNext() && !foundEnd) {
+            E item = itr.next();
+
+            // if the current element is the fromElement, or the front has already been found
+            if (item.equals(fromElement) || foundStart) {
+                foundStart = true;
+
+                /* if the current element is equal to the end element, set the foundEnd flag --
+                   else add the item.  */
+                if (item.equals(toElement)) {
+                    foundEnd = true;
+                } else {
+                    result.add(item);
+                }
+            }
+        }
+
         return result;
     }
 
@@ -449,6 +484,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
                 throw new IndexOutOfBoundsException();
             }
 
+            // move to the next item location
             loc.moveToNext();
             return item;
         }
