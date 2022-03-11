@@ -3,6 +3,7 @@
  * **********************************************************************
  *                     Revision History (newest first)
  ************************************************************************
+ * 03/10/2022 - Brendon Butler - implementing comparator for title
  * 02/01/2022 - Brendon Butler - implementing Aiden's comparator(s)
  *                              (CmpArtist)
  * 02/01/2022 - Aiden Bradley - creating CmpArtist comparator
@@ -121,6 +122,24 @@ public class Song implements Comparable<Song> {
         public int compare(Song s1, Song s2) {
             cmpCnt++;
             return s1.getArtist().compareToIgnoreCase(s2.getArtist());
+        }
+    }
+
+    /**
+     * A subclass that compares by artist
+     * @author Brendon Butler
+     */
+    public static class CmpTitle extends CmpCnt implements Comparator<Song> {
+        /**
+         * Compares song1 and song2 based on their artist fields
+         * @param s1 input song
+         * @param s2 compare song
+         * @return negative if song1 is less than song2, otherwise positive
+         */
+        @Override
+        public int compare(Song s1, Song s2) {
+            cmpCnt++;
+            return s1.getTitle().compareToIgnoreCase(s2.getTitle());
         }
     }
 
