@@ -14,7 +14,6 @@ package student;
 import java.io.FileNotFoundException;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.Scanner;
 
 public class RALtester3 {
 
