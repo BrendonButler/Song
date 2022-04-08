@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="723fd16b-8cdb-44d6-b47e-8a909663e6a0" name="Default Changelist" comment="Implementing Comparator for title (CmpTitle) in Song class&#10;Implementing SearchByTitlePrefix class to search by Title" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Brendon Butler &lt;bbutler452@gmail.com&gt;" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="23yzfthLydpWfbFi8KDkN35jWdR" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_MARK_IGNORED_FILES_AS_EXCLUDED" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.1954023" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+  </component>
+  <component name="ReaderModeSettings">
+    <option name="enabled" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Brendon\OneDrive - Southern Maine Community College\Computer Science\CSCI 290\Projects\Song\src" />
+      <recent name="C:\Users\Brendon\OneDrive - Southern Maine Community College\Computer Science\CSCI 290\Projects\Song\Part 6" />
+      <recent name="C:\Users\bbutl\OneDrive - Southern Maine Community College\Computer Science\CSCI 290\Projects\Song\Part 5\src" />
+      <recent name="C:\Users\bbutl\OneDrive - Southern Maine Community College\Computer Science\CSCI 290\Projects\Song\Part 4" />
+      <recent name="C:\Users\bbutl\OneDrive - Southern Maine Community College\Computer Science\CSCI 290\Projects\Song\Part 4\src" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\bbutl\OneDrive - Southern Maine Community College\Computer Science\CSCI 290\Projects\Song" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="student" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.SongSearchGUI [allSongs.txt]">
+    <configuration name="RALtester [allSongs.txt]" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="RALtester.RALtester" />
+      <module name="Song" />
+      <option name="PROGRAM_PARAMETERS" value="allSongs.txt" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RALtester [default]" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="RALtester.RALtester" />
+      <module name="Part 3" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RALtester2 [default]" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="RALtester.RALtester" />
+      <module name="Part 5" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RALtester3 (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="student.RALtester3" />
+      <module name="Part 5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="student.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RALtester3 (part 5)" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="student.RALtester3" />
+      <module name="Part 5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="student.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RALtester3" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="student.RALtester3" />
+      <module name="Song" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="student.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SearchByTitlePrefix" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="student.SearchByTitlePrefix" />
+      <module name="Part 6" />
+      <option name="PROGRAM_PARAMETERS" value="allSongs.txt search" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="student.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SongCollection [allSongs.txt]" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="student.SongCollection" />
+      <module name="Part 1" />
+      <option name="PROGRAM_PARAMETERS" value="allSongs.txt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="student.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SongSearchGUI [Final Project] [allSongs.txt]" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="songSearch.SongSearchGUI" />
+      <module name="Song" />
+      <option name="PROGRAM_PARAMETERS" value="allSongs.txt" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SongSearchGUI [Part 2] [allSongs.txt]" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="songSearch.SongSearchGUI" />
+      <module name="Part 2" />
+      <option name="PROGRAM_PARAMETERS" value="allSongs.txt" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SongSearchGUI [allSongs.txt]" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="songSearch.SongSearchGUI" />
+      <module name="Part 6" />
+      <option name="PROGRAM_PARAMETERS" value="allSongs.txt" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SongSearchGUI [shortSongs.txt]" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="songSearch.SongSearchGUI" />
+      <module name="Part 6" />
+      <option name="PROGRAM_PARAMETERS" value="shortSongs.txt" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestAdd" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="TestAdd" />
+      <module name="Part 4" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RALtester" type="JarApplication">
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="student.Song" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="student.SongCollection" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="JAR_PATH" value="$PROJECT_DIR$/Part 3/RALtester.jar" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\bbutl\OneDrive - Southern Maine Community College\Computer Science\CSCI 290\Projects\Song" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Scaffold" type="JarApplication">
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="student.Song" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="student.SongCollection" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="JAR_PATH" value="$PROJECT_DIR$/Part 3/Scaffold.jar" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\bbutl\OneDrive - Southern Maine Community College\Computer Science\CSCI 290\Projects\Song" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2" />
+    </configuration>
+    <configuration name="SongSearch" type="JarApplication">
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="student.Song" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="student.SongCollection" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="JAR_PATH" value="$PROJECT_DIR$/SongSearch.jar" />
+      <option name="PROGRAM_PARAMETERS" value="allSongs.txt" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\bbutl\OneDrive - Southern Maine Community College\Computer Science\CSCI 290\Projects\Song" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JarApplication">
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="student.Song" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+        <pattern>
+          <option name="PATTERN" value="student.SongCollection" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.RALtester [allSongs.txt]" />
+      <item itemvalue="Application.RALtester [default]" />
+      <item itemvalue="Application.RALtester2 [default]" />
+      <item itemvalue="Application.RALtester3 (1)" />
+      <item itemvalue="Application.RALtester3 (part 5)" />
+      <item itemvalue="Application.RALtester3" />
+      <item itemvalue="Application.SearchByTitlePrefix" />
+      <item itemvalue="Application.SongCollection [allSongs.txt]" />
+      <item itemvalue="Application.SongSearchGUI [Final Project] [allSongs.txt]" />
+      <item itemvalue="Application.SongSearchGUI [Part 2] [allSongs.txt]" />
+      <item itemvalue="Application.SongSearchGUI [allSongs.txt]" />
+      <item itemvalue="Application.SongSearchGUI [shortSongs.txt]" />
+      <item itemvalue="Application.TestAdd" />
+      <item itemvalue="JAR Application.RALtester" />
+      <item itemvalue="JAR Application.Scaffold" />
+      <item itemvalue="JAR Application.SongSearch" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.SearchByTitlePrefix" />
+        <item itemvalue="Application.RALtester3 (1)" />
+        <item itemvalue="Application.RALtester3" />
+        <item itemvalue="Application.RALtester3 (part 5)" />
+        <item itemvalue="Application.RALtester3" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="723fd16b-8cdb-44d6-b47e-8a909663e6a0" name="Default Changelist" comment="" />
+      <created>1642721221758</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1642721221758</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Initial Commit of Part #1&#10;Implementing Song &amp; SongCollection Class for use in SongSearchGUI">
+      <created>1644523349722</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1644523349722</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Implementing SearchByArtistPrefix search method(s)&#10;Implementing CmpArtist subclass of Song for comparing by artist">
+      <created>1644523606142</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1644523606142</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Implementing Part #3, Task #1 RaggedArrayList findFront() method 12/14 tests working">
+      <created>1644523995702</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1644523995702</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Part #3, Task #1, all parts passing">
+      <created>1644689237684</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1644689237684</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Part #3, Task #2 (findEnd) from Lydia Clark, all parts passing&#10;Optimized Task #1 (findFront), all parts passing">
+      <created>1644697968549</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1644697968549</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Optimized Part #3 Task #1 findFront further with Lydia's help">
+      <created>1644728135584</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1644728135584</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fixing Revision History header and adding comments to new code">
+      <created>1644792971777</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1644792971777</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Reformatting add method in RaggedArrayList, commenting, and updating revision history">
+      <created>1645394950101</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1645394950101</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Implementing Part 5 Task 1 (contains() method)&#10;Implementing Part 5 Task 2 (Iterator)&#10;Adding RALtester3 to test new implementations">
+      <created>1646279088770</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1646279088770</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Implementing Part 5 Task1-4 (contains(), iterator, toArray(), subList())">
+      <created>1646704954316</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1646704954316</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Updating subList() &amp; toArray() to match requirements">
+      <created>1646778621259</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1646778621259</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Updating subList() to have an inclusive starting point &amp; exclusive ending point">
+      <created>1646779672635</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1646779672635</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Implementing Comparator for title (CmpTitle) in Song class">
+      <created>1646959953199</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1646959953199</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Implementing Comparator for title (CmpTitle) in Song class&#10;Implementing SearchByTitlePrefix class to search by Title">
+      <created>1647817237954</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1647817237954</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial Commit of Part #1&#10;Implementing Song &amp; SongCollection Class for use in SongSearchGUI" />
+    <MESSAGE value="Implementing SearchByArtistPrefix search method(s)&#10;Implementing CmpArtist subclass of Song for comparing by artist" />
+    <MESSAGE value="Implementing Part #3, Task #1 RaggedArrayList findFront() method 12/14 tests working" />
+    <MESSAGE value="Part #3, Task #1, all parts passing" />
+    <MESSAGE value="Part #3, Task #2 (findEnd) from Lydia Clark, all parts passing&#10;Optimized Task #1 (findFront), all parts passing" />
+    <MESSAGE value="Optimized Part #3 Task #1 findFront further with Lydia's help" />
+    <MESSAGE value="Fixing Revision History header and adding comments to new code" />
+    <MESSAGE value="Reformatting add method in RaggedArrayList, commenting, and updating revision history" />
+    <MESSAGE value="Implementing Part 5 Task 1 (contains() method)&#10;Implementing Part 5 Task 2 (Iterator)" />
+    <MESSAGE value="Implementing Part 5 Task 1 (contains() method)&#10;Implementing Part 5 Task 2 (Iterator)&#10;Adding RALtester3 to test new implementations" />
+    <MESSAGE value="Implementing Part 5 Task 3 (toArray() method)" />
+    <MESSAGE value="Implementing Part 5 Task1-4 (contains(), iterator, toArray(), subList())" />
+    <MESSAGE value="Updating subList() &amp; toArray() to match requirements" />
+    <MESSAGE value="Updating subList() to have an inclusive starting point &amp; exclusive ending point" />
+    <MESSAGE value="Implementing Comparator for title (CmpTitle) in Song class" />
+    <MESSAGE value="Implementing Comparator for title (CmpTitle) in Song class&#10;Implementing SearchByTitlePrefix class to search by Title" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implementing Comparator for title (CmpTitle) in Song class&#10;Implementing SearchByTitlePrefix class to search by Title" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
