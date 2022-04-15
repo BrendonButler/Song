@@ -3,9 +3,10 @@
  *****************************************************************************
  *                       Revision History
  *****************************************************************************
+ * 04/11/2022 - Brendon Butler & Adarsha Dangi - changes to search & cleanup
+ * 04/08/2022 - Brendon Butler - Implementing search function & tests
  * 03/28/2022 - Aidan Bradley - Revisions to statistics method
- * 03/23/2022 - Brendon Butler - Implementing search function & tests
- *                             - Implementing statistics method
+ * 03/23/2022 - Brendon Butler - Implementing statistics method
  *                             - Implementing Extra Credit top10songs method
  * 03/23/2022 - Aidan Bradley & Brendon Butler - Creating Constructor
  *****************************************************************************
@@ -17,6 +18,8 @@ import java.time.Instant;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SearchByLyricsWords {
     private Set<String> commonWords;
@@ -33,7 +36,6 @@ public class SearchByLyricsWords {
         Pattern pattern = Pattern.compile("[a-zA-Z]{2,}+");
         lyricToSongMap = new TreeMap<>();
 
-        Instant start = Instant.now();
         this.commonWords = new LinkedHashSet<>(Arrays.asList("all", "an", "and", "are", "as", "at", "be", "been", "but",
                 "by", "can", "could", "did", "do", "each", "for", "from", "get", "had", "has", "have", "he", "her",
                 "him", "his", "how", "if", "in", "into", "is", "you", "it", "its", "made", "make", "many", "me", "more",
@@ -63,30 +65,57 @@ public class SearchByLyricsWords {
                 }
             }
         }
-        Instant end = Instant.now();
-        System.out.printf("%19s: %.3fs%n", "Execution Time", Duration.between(start, end).toMillis() / 1000D);
+    }
+
+    /**
+     * Search method to find songs in which their lyrics match the input search string
+     *
+     * @author Brendon Butler & Adarsha Dangi
+     * @param lyricsWords input search string
+     * @return an array of songs that have lyrics matching the input search string
+     */
+    public Song[] search(String lyricsWords) {
+        Set<Song> foundSongs = new TreeSet<>();
+        /* split the lyrics words into individual words (excluding special characters) and remove words shorter than
+           1 character, then add them all to a set of searchStrings */
+        String[] splitString = lyricsWords.toLowerCase().split("[^a-zA-Z]+");
+        Set<String> searchStrings = Arrays.stream(splitString).filter(w -> w.length() > 1)
+                .collect(Collectors.toCollection(TreeSet::new));
+
+        // find the difference of the common words and search strings (omits common words that are in searchStrings)
+        Set<String> intersection = new TreeSet<>(searchStrings);
+        intersection.retainAll(commonWords); // only keep common words that are in the searchStrings
+        searchStrings.removeAll(intersection); // remove common words (difference)
+
+        // loop through each search string
+        for (String searchString : searchStrings) {
+            if (lyricToSongMap.containsKey(searchString)) { // if song(s) contain search string ...
+                // ... add all songs if empty, else only keep intersecting songs
+                if (foundSongs.isEmpty())
+                    foundSongs.addAll(lyricToSongMap.get(searchString));
+                else foundSongs.retainAll(lyricToSongMap.get(searchString));
+            }
+        }
+
+        return foundSongs.toArray(new Song[0]);
     }
 
     /**
      * Method to print statistics for the SearchByLyricsWords class
      *
      * @author Brendon Butler
-     * Revised By: Aidan Bradley
+     * Revised By: Aidan Bradley & Brendon Butler
      */
     public void statistics() {
-        int count = 0;
-
         // calculate Song references
-        for (Set<Song> set : lyricToSongMap.values()) {
-            count += set.size();
-        }
+        int count = lyricToSongMap.values().stream().mapToInt(Set::size).sum();
 
         System.out.printf("%19s: %,d%n", "Number of Keys", lyricToSongMap.size());
         System.out.printf("%19s: %,d%n", "Song References", count);
         System.out.printf("%19s: %,d bytes%n", "Map Space Used", lyricToSongMap.size() * 8);
         System.out.printf("%19s: %,d bytes%n", "Songs Space Used", count * 8);
         System.out.printf("%19s: %,d bytes%n", "Compound Space Used", lyricToSongMap.size() * 8 + count * 8);
-        System.out.printf("%19s: O(%s)%n", "Space Complexity", "n");
+        System.out.printf("%19s: O(%s)%n", "Space Complexity", "8N + 8K");
     }
 
     /**
@@ -146,7 +175,13 @@ public class SearchByLyricsWords {
 
         sblw.statistics();
 
-        if (args.length > 1 && args[1].equalsIgnoreCase("-top10words"))
+        if (args.length > 1 && args[1].equalsIgnoreCase("-top10words")) {
             sblw.top10words();
+        } else if (args.length > 1) {
+            Song[] results = sblw.search(args[1]);
+            System.out.printf("%n%-26s | %s (%d total matches)%n", "Artist", "Title", results.length);
+            System.out.println("===========================|============================");
+            Stream.of(results).limit(10).forEach(s -> System.out.printf("%-26s | %s%n", s.getArtist(), s.getTitle()));
+        }
     }
 }
