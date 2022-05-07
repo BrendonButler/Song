@@ -10,8 +10,7 @@
  */
 package student;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class PhraseRanking {
 
@@ -24,37 +23,56 @@ public class PhraseRanking {
      * @return rank value determined by ranking algorithm
      */
     public static int rankPhrase(String lyrics, String lyricsPhrase) {
-        String selection = lyrics.toLowerCase().replaceAll("[\\n|\\r]", "  ")
-                .replaceAll("[,.]", " ");
-        String[] lyricsWord = lyricsPhrase.toLowerCase().split(" ");
+        String[] phraseWords = lyricsPhrase.toLowerCase().split(" ");
+        lyrics = lyrics.toLowerCase().replaceAll("\\W+", " ");
 
-        if (selection.contains(lyricsWord[0]))
-            selection = selection.substring(selection.indexOf(lyricsWord[0]));
-
+        int foundIndex = lyrics.indexOf(phraseWords[0]);
         int bestRank = -1;
-        int rank;
 
-        while (selection.contains(lyricsWord[0])) {
-            int start = selection.indexOf(lyricsWord[0]);
+        if (lyrics.contains(lyricsPhrase)) {
+            foundIndex = -1;
+            bestRank = lyricsPhrase.length();
+        }
+
+        // find all the starting points by the first search word
+        while (foundIndex != -1) {
+            Queue<String> words = new ArrayDeque<>(Arrays.asList(phraseWords));
+            int rank = 0;
             int curIndex = 0;
-            int lastWord;
 
-            for (lastWord = 0; lastWord < lyricsWord.length; lastWord++) {
-                curIndex = selection.indexOf(lyricsWord[lastWord] + " ", curIndex);
+            while (!words.isEmpty() && curIndex >= 0) {
+                curIndex = getExactWordIndex(lyrics, words.peek(), 1);
 
-                if (curIndex < 0) break;
+                if (curIndex >= 0) {
+                    words.poll();
+                    rank += curIndex;
+                }
             }
 
-            if (lastWord == lyricsWord.length)
-                rank = curIndex - start + lyricsWord[lastWord - 1].length();
-            else rank = -1;
-
-            if (rank > 0 && (bestRank > rank || bestRank < 0))
+            if (words.isEmpty() && (rank < bestRank || bestRank < 0) && rank >= lyricsPhrase.length()) {
                 bestRank = rank;
-            selection = selection.substring(start + lyricsWord[0].length());
+            }
+
+            foundIndex = getExactWordIndex(lyrics, phraseWords[0], ++foundIndex);
         }
 
         return bestRank;
+    }
+
+    private static int getExactWordIndex(String lyrics, String word, int adjust) {
+        int curIndex = lyrics.indexOf(word, adjust);
+        boolean foreChar = true, aftChar = true;
+
+        while (curIndex >= 0) {
+            foreChar = (curIndex != 0 && Character.isLetter(lyrics.charAt(curIndex - 1)));
+            aftChar = (curIndex + word.length() != lyrics.length() && Character.isLetter(lyrics.charAt(curIndex + word.length())));
+
+            if (foreChar && aftChar)
+                curIndex = lyrics.indexOf(word, curIndex + 1);
+            else break;
+        }
+
+        return (!foreChar && !aftChar) ? curIndex : -1;
     }
 
     /**
@@ -82,7 +100,7 @@ public class PhraseRanking {
         for (Song song : sblw.search(args[1])) {
             int rank = rankPhrase(song.getLyrics(), args[1]);
             if (rank >= args[1].length())
-                rankedSongs.add(new RankedSong(rank, song));
+              rankedSongs.add(new RankedSong(rank, song));
         }
 
         //rankedSongs.sort(RankedSong::compareTo);
