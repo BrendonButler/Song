@@ -4,6 +4,7 @@
  *                       Revision History
  *****************************************************************************
  * 05/07/2022 - Brendon Butler - Fixed rankPhrase method to get expected results
+ *                               and optimized implementation
  * 04/18/2022 - Adarsha Dangi & Brendon Butler - cleanup & testing of rankPhrase
  * 04/17/2022 - Brendon Butler - Created PhraseRanking class & RankedPhrase
                                  subclass
@@ -24,7 +25,7 @@ public class PhraseRanking {
      * @return rank value determined by ranking algorithm
      */
     public static int rankPhrase(String lyrics, String lyricsPhrase) {
-        String[] phraseWords = lyricsPhrase.toLowerCase().split(" ");
+        String[] phraseWords = lyricsPhrase.toLowerCase().split("[^a-zA-Z]+");
         lyrics = lyrics.toLowerCase().replaceAll("(\\n|\\r)", "  ");
 
         int foundIndex = getExactWordIndex(lyrics, phraseWords[0], 0);
@@ -44,14 +45,15 @@ public class PhraseRanking {
             Queue<String> words = new ArrayDeque<>(Arrays.asList(phraseWords));
             int curIndex = foundIndex;
             int lastIndex = -1;
+            words.poll(); // remove first word as it's index has already been identified
 
             // while the words queue is not empty and the current index is greater than the previous index, loop
             while (!words.isEmpty() && curIndex >= lastIndex) {
                 lastIndex = curIndex;
-                curIndex = getExactWordIndex(lyrics, words.peek(), lastIndex);
+                curIndex = getExactWordIndex(lyrics, words.peek(), lastIndex + 1);
 
                 // if the current index is greater than the last index, poll the next value from the queue
-                if (curIndex >= lastIndex) {
+                if (curIndex > lastIndex) {
                     words.poll();
                 }
             }
@@ -60,7 +62,7 @@ public class PhraseRanking {
             if (words.isEmpty()) {
                 int rank = curIndex - foundIndex + phraseWords[phraseWords.length - 1].length();
 
-                if (bestRank > rank || (bestRank == -1 && rank >= lyricsPhrase.length())) {
+                if (bestRank > rank || (bestRank == -1 && rank > 0)) {
                     bestRank = rank;
                 }
             }
@@ -122,7 +124,7 @@ public class PhraseRanking {
 
         for (Song song : sblw.search(args[1])) {
             int rank = rankPhrase(song.getLyrics(), args[1]);
-            if (rank >= args[1].length())
+            if (rank >= 0)
               rankedSongs.add(new RankedSong(rank, song));
         }
 

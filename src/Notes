@@ -1,0 +1,16 @@
+Changes in Part 10
+
+    - SearchByLyricsWords - removed Matcher and Pattern from constructor and optimized the flow. Before it would use the
+        matcher to identify words that matched a pattern and then iterated through those words. If the word was in the
+        common words set, it would skip it, but that check essentially added to the number of loop iterations. If it was
+        not a common word it would add it to a set.
+
+        The new method I have designed first creates a set of all the words in the lyrics (which already would cut the
+        iteration time down by quite a bit since the set removes duplicate words). Then I remove all the common words
+        from the set by using the removeAll method (difference) and remove all the words that are less than 2 characters.
+        This greatly reduces the number of iterations before the loop even starts. I found that it reduced the P10timer
+        time from around 170ms to 130ms.
+    - PhraseRanking - To fix results for repetitious searches "love love love" I polled the first value out of the queue
+        before the queue while loop starts (around line 50), then for each curIndex getExactWordIndex call I added 1 to
+        the adjustment argument so it would skip the current value. This appears to have saved about 10ms getting my
+        overall runtime down to around 120ms.

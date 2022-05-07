@@ -3,6 +3,7 @@
  *****************************************************************************
  *                       Revision History
  *****************************************************************************
+ * 05/07/2022 - Brendon Butler - Optimized Constructor
  * 04/11/2022 - Brendon Butler & Adarsha Dangi - changes to search & cleanup
  * 04/08/2022 - Brendon Butler - Implementing search function & tests
  * 03/28/2022 - Aidan Bradley - Revisions to statistics method
@@ -16,8 +17,6 @@ package student;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,11 +28,11 @@ public class SearchByLyricsWords {
      * Constructor for SearchByLyricsWords
      *
      * @author Brendon Butler & Aidan Bradley
+     * Revised By: Brendon Butler
      * @param sc SongCollection instance containing all songs from input file
      */
     public SearchByLyricsWords(SongCollection sc) {
         // Pattern finds all words [a-zA-Z] that are longer than 1 character, greedily
-        Pattern pattern = Pattern.compile("[a-zA-Z]{2,}+");
         lyricToSongMap = new TreeMap<>();
 
         this.commonWords = new LinkedHashSet<>(Arrays.asList("all", "an", "and", "are", "as", "at", "be", "been", "but",
@@ -45,24 +44,25 @@ public class SearchByLyricsWords {
 
         // iterate through all songs in the SongCollection
         for (Song song : sc.getAllSongs()) {
-            // find all values that match the regex
-            Matcher matcher = pattern.matcher(song.getLyrics().toLowerCase());
+            // create a set of all lyricsWords
+            Set<String> lyricWords = Arrays.stream(
+                    song.getLyrics().toLowerCase().split("[^a-zA-Z]+")).collect(Collectors.toSet()
+            );
 
-            // iterate through found matches
-            while (matcher.find()) {
-                // if the match is a common word, exclude it
-                if (!commonWords.contains(matcher.group())) {
-                    Set<Song> songSet = lyricToSongMap.get(matcher.group());
+            // remove all the common words and words shorter than 2 chars from the lyric words for faster searches
+            lyricWords.removeAll(commonWords);
+            lyricWords.removeIf(s -> s.length() < 2);
 
-                    // if the songSet doesn't exist, create it
-                    if (songSet == null) {
-                        songSet = new TreeSet<>();
-                    }
+            // loop through each word in lyricsWords to add them to the lyricToSongMap
+            for (String word : lyricWords) {
+                Set<Song> songSet = lyricToSongMap.get(word);
 
-                    // add the song to the set of songs and the word to the map as a key with the set of songs as the value
-                    songSet.add(song);
-                    lyricToSongMap.put(matcher.group(), songSet);
-                }
+                if (songSet == null)
+                    songSet = new HashSet<>();
+
+                // add the song to the set of songs and the word to the map as a key with the set of songs as the value
+                songSet.add(song);
+                lyricToSongMap.put(word, songSet);
             }
         }
     }
@@ -75,7 +75,7 @@ public class SearchByLyricsWords {
      * @return an array of songs that have lyrics matching the input search string
      */
     public Song[] search(String lyricsWords) {
-        Set<Song> foundSongs = new TreeSet<>();
+        Set<Song> foundSongs = new HashSet<>();
         /* split the lyrics words into individual words (excluding special characters) and remove words shorter than
            1 character, then add them all to a set of searchStrings */
         String[] splitString = lyricsWords.toLowerCase().split("[^a-zA-Z]+");
