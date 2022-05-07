@@ -3,19 +3,22 @@
  *****************************************************************************
  *                       Revision History
  *****************************************************************************
- * 04/19/2022 - Brendon Butler -
+ * 05/07/2022 - Brendon Butler - completed search function & testing
+ * 04/19/2022 - Brendon Butler - implemented search function
  *****************************************************************************
  */
 package student;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Queue;
+import java.util.LinkedList;
+import java.util.List;
+
+import static student.PhraseRanking.RankedSong;
+import static student.PhraseRanking.rankPhrase;
 
 public class SearchByLyricsPhrase {
 
     private SongCollection sc;
+    private SearchByLyricsWords sblw;
 
     /**
      * Constructor for SearchByLyricsPhrase
@@ -25,6 +28,7 @@ public class SearchByLyricsPhrase {
      */
     public SearchByLyricsPhrase(SongCollection sc) {
         this.sc = sc;
+        sblw = new SearchByLyricsWords(sc);
     }
 
     /**
@@ -35,70 +39,25 @@ public class SearchByLyricsPhrase {
      * @return an array of songs that have lyrics matching the input search phrase string
      */
     public Song[] search(String lyricsPhrase) {
-        String[] phraseWords = lyricsPhrase.toLowerCase().split(" ");
-        HashSet<PhraseRanking.RankedSong> results = new HashSet<>();
+        List<RankedSong> rankedSongs = new LinkedList<>();
 
-        for (Song song : sc.getAllSongs()) {
-            int rank = -1;
+        System.out.printf("Results for \"%s\"%n", lyricsPhrase);
 
-            if (song.getLyrics().contains(phraseWords[0])
-                    && song.getLyrics().contains(phraseWords[phraseWords.length - 1])) {
-                rank = rankSong(song.getLyrics(), lyricsPhrase);
-            }
-
-            if (rank >= lyricsPhrase.length()) {
-                results.add(new PhraseRanking.RankedSong(rank, song));
-            }
+        for (Song song : sblw.search(lyricsPhrase)) {
+            int rank = rankPhrase(song.getLyrics(), lyricsPhrase);
+            if (rank >= lyricsPhrase.length())
+                rankedSongs.add(new RankedSong(rank, song));
         }
 
-        return (Song[]) results.toArray();
-    }
+        rankedSongs.sort(RankedSong::compareTo);
+        Song[] results = new Song[rankedSongs.size()];
+        int i = 0;
 
-    private int rankSong(String lyrics, String lyricsPhrase) {
-        String[] phraseWords = lyricsPhrase.toLowerCase().split(" ");
-        lyrics = lyrics.toLowerCase().replaceAll("\\W+", " ");
-
-        int foundIndex = lyrics.indexOf(phraseWords[0]);
-        int bestRank = -1;
-
-        // find all the starting points by the first search word
-        while (foundIndex > -1) {
-            Queue<String> words = new ArrayDeque<>(Arrays.asList(phraseWords));
-            int rank = 0;
-            int curIndex = 0;
-
-            while (!words.isEmpty() && curIndex >= 0) {
-                curIndex = getExactWordIndex(lyrics, words.peek(), curIndex);
-
-                if (curIndex != -1) {
-                    words.poll();
-                    rank += curIndex;
-                }
-            }
-
-            if ((rank < bestRank || bestRank < 0) && rank >= lyricsPhrase.length()) {
-                bestRank = rank;
-            }
-
-            foundIndex = getExactWordIndex(lyrics, phraseWords[0], ++foundIndex);
+        for (RankedSong song : rankedSongs) {
+            results[i] = song.getSong();
+            i++;
         }
 
-        return bestRank;
-    }
-
-    private int getExactWordIndex(String lyrics, String word, int adjust) {
-        int curIndex = lyrics.indexOf(word, adjust);
-        boolean foreChar = true, aftChar = true;
-
-        while (curIndex >= 0) {
-            foreChar = (curIndex != 0 && Character.isLetter(lyrics.charAt(curIndex - 1)));
-            aftChar = (curIndex + word.length() != lyrics.length() && Character.isLetter(lyrics.charAt(curIndex + word.length())));
-
-            if (foreChar && aftChar)
-                curIndex = lyrics.indexOf(word, curIndex + 1);
-            else curIndex *= -1;
-        }
-
-        return (!foreChar && !aftChar) ? curIndex : -1;
+        return results;
     }
 }
